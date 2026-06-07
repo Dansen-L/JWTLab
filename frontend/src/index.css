@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base layer ──────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html, body {
+    @apply bg-background text-text-primary font-body;
+    min-height: 100vh;
+  }
+
+  h1 { @apply font-display text-display; }
+  h2 { @apply font-display text-h2; }
+  h3 { @apply font-display text-h3; }
+
+  code, pre, kbd {
+    @apply font-mono;
+  }
+
+  /* Scrollbar (dark theme) */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-surface; }
+  ::-webkit-scrollbar-thumb { @apply bg-border rounded; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-text-muted; }
+
+  /* Focus rings — never suppressed, always visible */
+  :focus-visible {
+    outline: 2px solid theme('colors.primary');
+    outline-offset: 2px;
+  }
+}
+
+/* ── Component layer ─────────────────────────────────────────────────────── */
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-background font-body font-medium
+           rounded-btn h-10 px-5 transition-all
+           hover:brightness-110 hover:scale-[1.02]
+           focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply border border-accent text-accent font-body font-medium
+           rounded-btn h-10 px-5 transition-all
+           hover:brightness-110 hover:scale-[1.02]
+           focus-visible:ring-2 focus-visible:ring-accent;
+  }
+
+  .card {
+    @apply bg-surface border border-border rounded-card p-6 transition-all
+           hover:border-primary/50 hover:shadow-primary-glow;
+  }
+
+  .input-field {
+    @apply bg-surface-alt border border-border rounded-input px-3 py-2
+           text-text-primary font-body text-body
+           focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/30
+           transition-all outline-none;
+  }
+
+  .badge-vulnerable {
+    @apply bg-error/20 text-error border border-error/30 rounded-full px-3 py-0.5 text-small font-medium;
+  }
+
+  .badge-patched {
+    @apply bg-primary/20 text-primary border border-primary/30 rounded-full px-3 py-0.5 text-small font-medium;
+  }
+
+  .badge-warning {
+    @apply bg-warning/20 text-warning border border-warning/30 rounded px-2 py-0.5 text-small font-medium;
+  }
+
+  .code-block {
+    @apply bg-surface-alt border border-border rounded-btn p-4 font-mono text-small
+           relative overflow-x-auto;
+  }
+
+  .jwt-header-color  { color: theme('colors.jwt-header'); }
+  .jwt-payload-color { color: theme('colors.jwt-payload'); }
+  .jwt-sig-color     { color: theme('colors.jwt-sig'); }
+
+  /* Narrative callout boxes — highlight key security terms */
+  .narrative-body code {
+    @apply bg-primary/15 text-primary border border-primary/25 rounded px-1 py-0.5 font-mono text-small font-medium;
+  }
+
+  .narrative-body strong {
+    @apply text-text-primary font-semibold;
+  }
+
+  .narrative-body ul {
+    @apply space-y-1;
+  }
+
+  .narrative-body li {
+    @apply text-text-muted text-body leading-relaxed;
+  }
+
+  /* Security term callout strip */
+  .narrative-callout {
+    @apply border-l-4 border-primary/60 pl-3 my-2 text-primary/90 text-small font-medium bg-primary/5 py-1 rounded-r;
+  }
+
+  /* Inline callout box for key security terms in narrative prose */
+  .callout-term {
+    @apply inline-block bg-primary/10 text-primary border border-primary/30 rounded px-1.5 py-0.5 font-semibold text-small mx-0.5 leading-normal;
+  }
+
+  /* Danger-level callout term (for critical terms like CVEs, attack names) */
+  .callout-term-danger {
+    @apply inline-block bg-error/10 text-error border border-error/30 rounded px-1.5 py-0.5 font-semibold text-small mx-0.5 leading-normal;
+  }
+
+  /* Step indicator circles */
+  .step-pending  { @apply border-2 border-text-muted text-text-muted rounded-full w-7 h-7 flex items-center justify-center text-small; }
+  .step-active   { @apply border-2 border-primary text-primary rounded-full w-7 h-7 flex items-center justify-center text-small animate-pulse-ring; }
+  .step-complete { @apply bg-primary text-background rounded-full w-7 h-7 flex items-center justify-center text-small; }
+}
+
+/* ── Light theme override ────────────────────────────────────────────────── */
+/* Applied when AppShell adds .theme-light to <html> */
+html.theme-light {
+  color-scheme: light;
+  background-color: #F4F6FB;
+  color: #0A0C12;
+}
+
+html.theme-light body {
+  background-color: #F4F6FB;
+  color: #0A0C12;
+}
+
+html.theme-light .bg-surface,
+html.theme-light header.bg-surface,
+html.theme-light nav.bg-surface {
+  background-color: #FFFFFF !important;
+}
+
+html.theme-light .bg-surface-alt,
+html.theme-light .code-block,
+html.theme-light .input-field {
+  background-color: #EEF0F7 !important;
+  color: #0A0C12;
+}
+
+html.theme-light .border-border {
+  border-color: #D1D8E8 !important;
+}
+
+html.theme-light .text-text-primary { color: #0A0C12; }
+html.theme-light .text-text-muted   { color: #4A5568; }
+
+/* ── Section heading bleed ───────────────────────────────────────────────── */
+/* On large screens, h2 section headings bleed -20px into the left gutter */
+@media (min-width: 1024px) {
+  .section-heading-bleed {
+    margin-left: -20px;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
